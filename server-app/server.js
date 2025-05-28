@@ -31,7 +31,8 @@ app.post("/api/short", async (req,res) => {
         if(!fullUrl) return res.status(500).json({error: 'fullUrl error'});
         const shortUrl = nanoid(10);
         const url = new Url({fullUrl,shortUrl});
-        const myUrl = `http://localhost:3000/${shortUrl}`;
+        const baseUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
+        const myUrl = `${baseUrl}/${shortUrl}`;
         const qrCodeImg = await QRCode.toDataURL(myUrl)
         await url.save();
         return res.status(200).json({message: "URL Generated", shortUrl: myUrl, qrCodeImg})
@@ -58,6 +59,7 @@ app.get("/:shortUrl", async (req,res)=> {
     }
 })
 
-app.listen(3000, ()=> {
-   console.log("Server is running on port 3000") 
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, ()=> {
+   console.log(`Server is running on port ${PORT}`) 
 })

@@ -7,7 +7,8 @@ export default function App() {
   const [shortUrl,setShortUrl] = useState("");
 
   const handleSubmit = (()=> {
-    axios.post("http://localhost:3000/api/short",{fullUrl})
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
+    axios.post(`${apiUrl}/api/short`,{fullUrl})
       .then((res)=> {
         setShortUrl(res.data);      
       })
