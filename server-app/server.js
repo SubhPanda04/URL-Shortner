@@ -34,7 +34,7 @@ app.post("/api/short", async (req,res) => {
         if(!fullUrl) return res.status(500).json({error: 'fullUrl error'});
         const shortUrl = nanoid(10);
         const url = new Url({fullUrl,shortUrl});
-        const baseUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
+        const baseUrl = process.env.VITE_API_URL || `http://localhost:${process.env.PORT || 3000}`;
         const myUrl = `${baseUrl}/${shortUrl}`;
         const qrCodeImg = await QRCode.toDataURL(myUrl)
         await url.save();
