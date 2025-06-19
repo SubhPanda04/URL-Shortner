@@ -14,6 +14,23 @@ app.use(cors({
   }));  
 app.use(express.json());
 
+const url = process.env.VITE_API_URL || "http://localhost:5000";
+const interval = 30000;
+
+function reloadWebsite() {
+  axios
+    .get(url)
+    .then((response) => {
+      console.log("website reloaded");
+    })
+    .catch((error) => {
+      console.error(`Error : ${error.message}`);
+    });
+}
+
+setInterval(reloadWebsite, interval);
+
+
 //Database Connection
 
 mongoose.connect(process.env.DATABASE_URL)
